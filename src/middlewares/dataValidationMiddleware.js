@@ -26,3 +26,13 @@ export const validateRegister = (req, res, next) => {
     }
     next();
 };
+
+export const validateLogin = (req, res, next) => {
+    const { error } = loginSchema.validate(req.body);
+    if (error) {
+        return res.status(422).json({
+            message: error.details[0].message
+        });
+    }
+    next();
+};
