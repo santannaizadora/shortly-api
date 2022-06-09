@@ -53,3 +53,19 @@ export const deleteUrl = async (req, res) => {
         console.log(error);
     }
 };
+
+export const openUrl = async (req, res) => {
+    const { shortUrl } = req.params;
+    const query = {
+        text: "SELECT url FROM urls WHERE short_url = $1",
+        values: [shortUrl]
+    };
+    try{
+        const result = await connection.query(query);
+        if(result.rows.length === 0) return res.status(404).json({ message: "Url not found" });
+        res.redirect(result.rows[0].url);
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong" });
+        console.log(error);
+    }
+};
