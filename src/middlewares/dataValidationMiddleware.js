@@ -12,7 +12,7 @@ const loginSchema = joi.object({
     password: joi.string().min(6).required()
 });
 
-const shortenUrlSchema = joi.object({
+const urlSchema = joi.object({
     url: joi.string().uri().required()
 });
 
@@ -36,3 +36,13 @@ export const validateLogin = (req, res, next) => {
     }
     next();
 };
+
+export const validateUrl = (req, res, next) => {
+    const { error } = urlSchema.validate(req.body);
+    if (error) {
+        return res.status(422).json({
+            message: error.details[0].message
+        });
+    }
+    next();
+}
