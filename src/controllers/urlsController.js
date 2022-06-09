@@ -63,6 +63,11 @@ export const openUrl = async (req, res) => {
     try{
         const result = await connection.query(query);
         if(result.rows.length === 0) return res.status(404).json({ message: "Url not found" });
+        const updateVisitCountQuery = {
+            text: "UPDATE urls SET visit_count = visit_count + 1 WHERE short_url = $1",
+            values: [shortUrl]
+        };
+        await connection.query(updateVisitCountQuery);
         res.redirect(result.rows[0].url);
     } catch (error) {
         res.status(500).json({ message: "Something went wrong" });
