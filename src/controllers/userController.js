@@ -1,5 +1,5 @@
 import connection from "../db.js";
-export const getUserById = async (req, res, next) => {
+export const getUserById = async (req, res) => {
     const { id } = req.params;
     const query = {
         text: `SELECT users.id, users.name, soma.sum as "visitCount", urls.id as "urlId", 
